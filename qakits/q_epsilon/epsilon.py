@@ -1,10 +1,23 @@
 import os
 import numpy as np
 class epsilon:
-    def __init__(self,file_end="pwscf.dat",file_prefix=""):
+    def __init__(self,file_end="pwscf.dat",file_prefix="",xlim=None):
         self.epsr=self.readfile(file_prefix+"epsr_"+file_end)
-        self.epsi=self.readfile(file_prefix+"epsi_"+file_end)
-        self.ieps=self.readfile(file_prefix+"ieps_"+file_end)
+        self.energy=self.epsr[:,0]
+        self.epsr=self.epsr[:,1:]
+        self.epsi=self.readfile(file_prefix+"epsi_"+file_end)[:,1:]
+        self.ieps=self.readfile(file_prefix+"ieps_"+file_end)[:,1:]
+        self.eels=self.readfile(file_prefix+"eels_"+file_end)[:,1:]
+        if xlim:
+            _x,self.epsr=self.cuteps(xlim=xlim,y=self.epsr)
+            _x,self.epsi=self.cuteps(xlim=xlim,y=self.epsi)
+            _x,self.ieps=self.cuteps(xlim=xlim,y=self.ieps)
+            _x,self.eels=self.cuteps(xlim=xlim,y=self.eels)
+            self.energy=_x
+        # eV 2 mnm
+        self.energy_nm=1239.8/(1e-15+self.energy)
+        self.refl=self.eps2reflect()
+        
     #
     def readfile(self,filename=""):
        if not os.path.isfile(filename):
@@ -30,7 +43,7 @@ class epsilon:
              exit()
        return npda
     def returnepsilon(self,eps=None):
-       return eps if eps else [self.epsr, self.epsi]
+       return eps if eps is not None else [self.epsr, self.epsi]
     #
     def sqrt_epsilon(self,eps=None):
        """
@@ -64,3 +77,30 @@ class epsilon:
        Rd=N1+N
        R=np.square(np.abs(Ru)/np.abs(Rd))
        return R
+    # 截断能量范围
+    def cuteps(self,xlim=[0.5,3],x=None,y=None):
+        x = x if x is not None else self.energy
+        y = y if y is not None else self.epsr
+        
+        # 检查 x 是否为一维数组，y 是否为二维数组
+        if x.ndim != 1 or y.ndim != 2:
+            raise ValueError("x should be a 1-dimensional array and y should be a 2-dimensional array")
+        
+        # 检查 x 和 y 的第一维度长度是否相同
+        if x.shape[0] != y.shape[0]:
+            raise ValueError("The first dimension of x and y should match")
+        
+        # 使用布尔索引选择 x 在 xlim 范围内的元素
+        mask = (x >= xlim[0]) & (x <= xlim[1])
+        
+        # 使用 mask 来选择 y 中对应的行
+        selected_x = x[mask]
+        selected_y = y[mask, :]
+        
+        # 返回选择后的 x 和 y
+        return selected_x, selected_y        
+
+
+
+
+

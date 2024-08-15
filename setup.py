@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='qakits',
-    version='0.0.1',
+    version='0.0.2',
     author='cndaqiang',
     author_email='who@cndaqiang.ac.cn',
     description='TBD',
@@ -13,7 +13,7 @@ setup(
         #'airtest_mobileauto': ['tpl_target_pos.png'],
     },
     include_package_data=True,  # 确保 package_data 里的文件被包含
-    url='https://TBD',
+    url='https://github.com/cndaqiang/qakits',
     install_requires=[
         'numpy',
     ],
