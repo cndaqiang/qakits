@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='qakits',
-    version='0.0.2',
+    version='0.0.3',
     author='cndaqiang',
     author_email='who@cndaqiang.ac.cn',
     description='TBD',
@@ -17,6 +17,20 @@ setup(
     install_requires=[
         'numpy',
     ],
+    entry_points={
+        'console_scripts': [
+            #'energy2all=qakits.bin.energy2all:main',  # 假设 energy2all.py 中有一个 main() 函数作为入口
+            'energy2all=qakits.bin.energy2all:main',  # 直接引用脚本文件
+            'cal=qakits.bin.cal:main',  # 直接引用脚本文件
+            'pp2hdf5=qakits.bin.ppfile2hdf5:main',  # 直接引用脚本文件
+            'pp2dipole=qakits.bin.ppfile2dipole:main',  # 直接引用脚本文件
+            'pp2gather=qakits.bin.ppfile2gather:main',  # 读入pp输出的density.txt/density.hdf5输出收集所有密度的hdf5
+            'hdf5density2db=qakits.bin.hdf5density2db:main',  # 把各个td的density的数据保存到hdf5文件
+            'hdf5yasuo=qakits.bin.compress_hdf5:main', # 压缩hdf5文件
+            'hdf5viewer=qakits.bin.hdf5viewer:main', # 查看hdf5文件
+            'freegpu=qakits.bin.freegpu:main', # 查看hdf5文件
+        ],
+    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
