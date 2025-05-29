@@ -28,7 +28,10 @@ setup(
             'hdf5density2db=qakits.bin.hdf5density2db:main',  # 把各个td的density的数据保存到hdf5文件
             'hdf5yasuo=qakits.bin.compress_hdf5:main', # 压缩hdf5文件
             'hdf5viewer=qakits.bin.hdf5viewer:main', # 查看hdf5文件
-            'freegpu=qakits.bin.freegpu:main', # 查看hdf5文件
+            'freegpu=qakits.bin.freegpu:main', # 查看显存内存占用
+            'httpserver=qakits.bin.httpserver:main', # 分享当前文件夹
+            'pywget=qakits.bin.pywget:main', # wget python版
+            'pymd5=qakits.bin.pymd5:main', # wget python版
         ],
     },
     classifiers=[
