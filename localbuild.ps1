@@ -1,3 +1,6 @@
+# 临时修改用户目录
+$env:USERPROFILE = "D:\SoftData"
+
 & "$env:USERPROFILE\miniconda3\shell\condabin\conda-hook.ps1"
 conda activate "$env:USERPROFILE\miniconda3"
 Get-ChildItem -Path .\dist\* | Remove-Item
